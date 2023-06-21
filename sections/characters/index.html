@@ -37,12 +37,12 @@
           'collection': 'personajes'
         }),
         success: function(data) {
-          let html = '<ul>\n';
+          /* let html = '<ul>\n';
           $.each(data, function(id, obj) {
             html += '<li>' + obj.nombre + ' (' + obj.jugador + ')</li>';
           });
-          html += '</ul>\n';
-          $('personajes').html(html);
+          html += '</ul>\n'; */
+          $('personajes').html(data);
         },
         error: function(error) {
           console.log('Error ' + error);
