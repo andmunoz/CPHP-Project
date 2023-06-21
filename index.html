@@ -8,17 +8,102 @@
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <title>Cyberpunk Help Page v2.0</title>
 </head>
 <body>
-    <div class="body">
-        <h1>Cyberpunk Help Page</h1>
-        <div class="card">
-            <div class="container">
-              <h4><b>Jane Doe</b></h4> 
-              <p>Interior Designer</p> 
-            </div>
-          </div>          
+  <div class="header">
+    <h1>Cyberpunk Help Page Header</h1>
+  </div>
+
+  <div class="body">     
+
+    <div class="card" id="personajes">
+      <img src="assets/secciones/Hojas.jpg"/>
+      <div class="container">
+        <h3>Personajes</h3> 
+        <p>En esta sección podrás encontrar personajes creados, tanto jugadores como no jugadores.</p> 
+      </div>
+    </div>          
+    <script>$('#personajes').click(function() { $(location).attr('href', 'sections/characters/') });</script>
+
+    <div class="card" id="roles">
+      <img src="assets/secciones/Roles.jpg">
+      <div class="container">
+        <h3>Maestro de Roles y Habilidades</h3> 
+        <p>En esta sección podrás encontrar el maestro de roles y habilidades para que puedas preparar tus propios personajes.</p> 
+      </div>
+    </div>          
+    <script>$('#roles').click(function() { $(location).attr('href', 'sections/roles/') });</script>
+
+    <div class="card" id="vida">
+      <img src="assets/secciones/Vida.jpg"/>
+      <div class="container">
+        <h3>Generador de Vida Pasada</h3> 
+        <p>En esta sección podrás encontrar tablas para la creación de vida pasada.</p> 
+      </div>
+    </div>          
+    <script>$('#vida').click(function() { $(location).attr('href', 'sections/lifepath/') });</script>
+
+    <div class="card" id="equipo">
+      <img src="assets/secciones/Equipo.jpg"/>
+      <div class="container">
+        <h3>Armas y Equipo</h3> 
+        <p>En esta sección podrás encontrar listas con armamento, blindaje y equipo para tus personajes.</p> 
+      </div>
+    </div>          
+    <script>$('#equipo').click(function() { $(location).attr('href', 'sections/gear/') });</script>
+
+    <div class="card" id="ciberequipo">
+      <img src="assets/secciones/Ciberequipo.jpg"/>
+      <div class="container">
+        <h3>Ciberequipo</h3> 
+        <p>En esta sección podrás encontrar listas con ciberequipo y sus mejoras.</p> 
+      </div>
+    </div>          
+    <script>$('#ciberequipo').click(function() { $(location).attr('href', 'sections/ciberware/') });</script>
+
+    <div class="card" id="drogas">
+      <img src="assets/secciones/Drogas.jpg"/>
+      <div class="container">
+        <h3>Drogas</h3> 
+        <p>En esta sección podrás encontrar un compendio de drogas para tus partidas.</p> 
+      </div>
     </div>
+    <script>$('#drogas').click(function() { $(location).attr('href', 'sections/drugs/') });</script>
+
+    <div class="card" id="vehiculos">
+      <img src="assets/secciones/Vehiculos.jpg"/>
+      <div class="container">
+        <h3>Vehículos</h3> 
+        <p>En esta sección podrás encontrar un maestro de vehículos que puedes utilizar y comprar.</p> 
+      </div>
+    </div>
+    <script>$('#vehiculos').click(function() { $(location).attr('href', 'sections/vehicles/') });</script>
+
+    <div class="card" id="name">
+      <img src="assets/secciones/Chips.jpg"/>
+      <div class="container">
+        <h3>Netrunning</h3> 
+        <p>En esta sección podrás encontrarás reglas y material para los netrunners.</p> 
+      </div>
+    </div>
+    <script>$('#netrunning').click(function() { $(location).attr('href', 'sections/netrunning/') });</script>
+
+    <div class="card" id="documentos">
+      <img src="assets/secciones/Documentos.jpg"/>
+      <div class="container">
+        <h3>Documentos</h3> 
+        <p>En esta sección podrás encontrarás otros documentos y complementos para tus partidas.</p> 
+      </div>
+    </div>
+    <script>$('#documentos').click(function() { $(location).attr('href', 'sections/docs/') });</script>
+
+  </div>
+
+  <div class="footer">
+    <h3>Cyberpunk Help Page Footer</h3>
+  </div>
+
 </body>
 </html>
