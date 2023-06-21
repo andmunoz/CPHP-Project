@@ -42,7 +42,7 @@
             html += '<li>' + obj.nombre + ' (' + obj.jugador + ')</li>';
           });
           html += '</ul>\n'; */
-          $('personajes').html(data);
+          $('personajes').text(data);
         },
         error: function(error) {
           console.log('Error ' + error);
