@@ -21,8 +21,35 @@
     </ul>
   </div>
 
-  <div class="body">     
-    <img src="../../assets/secciones/_No-Photo.jpg"/>
+  <div class="body">
+    <div id="personajes">Cargando...</div>
+    <script>
+      $.ajax({
+        url: '',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apiKey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL',
+          'Access-Control-Request-Headers': '*'
+        },
+        data: JSON.stringify({
+          'dataSource': 'Cluster0',
+          'database': 'cyberpunk',
+          'collection': 'personajes'
+        }),
+        success: function(data) {
+          let html = '<ul>\n';
+          $.each(data, function(id, obj) {
+            html += '<li>' + obj.nombre + ' (' + obj.jugador + ')</li>';
+          });
+          html += '</ul>\n';
+          $('personajes').html(html);
+        },
+        error: function(error) {
+          console.log('Error ' + error);
+        }
+      });
+    </script>
   </div>
 
   <div class="footer">
