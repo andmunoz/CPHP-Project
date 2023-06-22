@@ -25,11 +25,11 @@
     <div id="personajes">Cargando...</div>
     <script>
       $.ajax({
-        url: '',
+        url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/find',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apiKey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL',
+          'apikey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL'
         },
         data: JSON.stringify({
           'dataSource': 'Cluster0',
@@ -37,17 +37,17 @@
           'collection': 'personajes'
         }),
         success: function(data) {
-          console.log('Response: ');
-          console.log(data);
-          /* let html = '<ul>\n';
-          $.each(data, function(id, obj) {
-            html += '<li>' + obj.nombre + ' (' + obj.jugador + ')</li>';
+          console.log(data.documents);
+          let html = '<ul>\n';
+          $.each(data.documents, function(id, obj) {
+            html += '<li>' + obj.nombre + ' (' + obj.jugador + ')</li>\n';
           });
-          html += '</ul>\n'; */
-          $('personajes').text(data);
+          html += '</ul>\n';
+          console.log(html);
+          $('#personajes').html(html);
         },
         error: function(error) {
-          console.log('Error ' + error);
+          console.error('Error ' + error.status);
         }
       });
     </script>
