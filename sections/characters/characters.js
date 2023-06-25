@@ -1,33 +1,35 @@
-let characterList = {};
+let characterList = null;
 let actualCharacter = {};
 
 function openCharacterList(){
-    $.ajax({
-        url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/find',
-        method: 'POST',
-        timeout: 0,
-        headers: {
-            'Content-Type': 'application/json',
-            'apikey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL'
-        },
-        data: JSON.stringify({
-            'dataSource': 'Cluster0',
-            'database': 'cyberpunk',
-            'collection': 'personajes'
-        }),
-        success: function(data) {
-            console.log(data);
-            characterList = data.documents;
-            let html = '\n';
-            $.each(data.documents, function(id, obj) {
-                html += '<a href="#" onclick="fillCharacterSheet(' + id + ')">' + obj.nombre + '</a>\n';
-            });
-            $('#personajes').html(html);
-        },
-        error: function(obj, error) {
-            console.error('Error ' + error);
-        }
-    }); 
+    if (!characterList) {
+        $.ajax({
+            url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/find',
+            method: 'POST',
+            timeout: 0,
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL'
+            },
+            data: JSON.stringify({
+                'dataSource': 'Cluster0',
+                'database': 'cyberpunk',
+                'collection': 'personajes'
+            }),
+            success: function(data) {
+                console.log(data);
+                characterList = data.documents;
+                let html = '\n';
+                $.each(data.documents, function(id, obj) {
+                    html += '<a href="#" onclick="fillCharacterSheet(' + id + ')">' + obj.nombre + '</a>\n';
+                });
+                $('#personajes').html(html);
+            },
+            error: function(obj, error) {
+                console.error('Error ' + error);
+            }
+        }); 
+    }
     $('#sideNav').css('width', '250px');
     $('#main').css('marginLeft', '250px').fadeTo(1000, 0.4);
 }

@@ -147,6 +147,7 @@ img {
 .grid-container {
     display: grid;
     gap: 10px;
+    font-size: 120%;
     grid-template-columns: 150px 150px 200px auto auto 200px auto auto;    
 }
 
@@ -176,8 +177,8 @@ img {
     grid-row: span 2;
 }
 
-.grid-row5 {
-    grid-row: span 5;
+.grid-row6 {
+    grid-row: span 6;
 }
 
 .grid-fill {
