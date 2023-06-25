@@ -27,6 +27,7 @@
       $.ajax({
         url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/find',
         method: 'POST',
+        timeout: 0,
         headers: {
           'Content-Type': 'application/json',
           'apikey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL'
@@ -43,11 +44,10 @@
             html += '<li>' + obj.nombre + ' (' + obj.jugador + ')</li>\n';
           });
           html += '</ul>\n';
-          console.log(html);
           $('#personajes').html(html);
         },
-        error: function(error) {
-          console.error('Error ' + error.status);
+        error: function(obj, error) {
+          console.error('Error ' + error);
         }
       });
     </script>
