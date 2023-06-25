@@ -12,46 +12,44 @@
     <title>Cyberpunk Help Page v2.0</title>
 </head>
 <body>
+
   <div class="header">
     <ul>
       <li><a href="../../"><img src="../../assets/cyberpunk.gif" style="height: 30px;"/></a></li>
-      <li><a href="#pjs">Salón de la Fama</a></li>
-      <li><a href="#pnjs">Personajes Deshechables</a></li>
+      <li><a href="#pjs" onclick="openCharacterList('pjs');">Salón de la Fama</a></li>
+      <li><a href="#pnjs" onclick="openCharacterList('pnjs');">Personajes Deshechables</a></li>
       <li style="float:right"><a href="#creator">Crear Personaje</a></li>
     </ul>
   </div>
 
   <div class="body">
-    <div id="personajes">Cargando...</div>
-    <script>
-      $.ajax({
-        url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/find',
-        method: 'POST',
-        timeout: 0,
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL'
-        },
-        data: JSON.stringify({
-          'dataSource': 'Cluster0',
-          'database': 'cyberpunk',
-          'collection': 'personajes'
-        }),
-        success: function(data) {
-          console.log(data.documents);
-          let html = '<ul>\n';
-          $.each(data.documents, function(id, obj) {
-            html += '<li>' + obj.nombre + ' (' + obj.jugador + ')</li>\n';
-          });
-          html += '</ul>\n';
-          $('#personajes').html(html);
-        },
-        error: function(obj, error) {
-          console.error('Error ' + error);
-        }
-      });
-    </script>
+    <div id="sideNav" class="sidenav">
+      <h3>Personajes</h3>
+      <a href="javascript:void(0)" class="closebtn" onclick="closeCharacterList()">&times;</a>
+      <div id="personajes"></div>
+    </div>
+    <div id="main">
+      <div class="grid-container">
+        <div class="grid-value grid-col2 grid-row5"><img src="../../assets/_No-Photo.jpg" width="300px"/></div>
+        <div class="grid-label">Personaje:</div><div class="grid-value grid-col2" id="nombre"></div>
+        <div class="grid-label">Jugador:</div><div class="grid-value grid-col2" id="jugador"></div>
+
+        <div class="grid-label">Rol:</div><div class="grid-value grid-col2" id="rol"></div>
+        <div class="grid-label">Fecha de Nacimiento:</div><div class="grid-value grid-col2" id="fecha_nacimiento"></div>
+
+        <div class="grid-label">Estatura:</div><div class="grid-value grid-col2" id="estatura"></div>
+        <div class="grid-label">Experiencia:</div><div class="grid-value grid-col2" id="experiencia"></div>
+
+        <div class="grid-label">Peso:</div><div class="grid-value grid-col2" id="peso"></div>
+        <div class="grid-label">Estado:</div><div class="grid-value grid-col2" id="estado"></div>
+
+        <div class="grid-value grid-fill grid-col6" id="descripcion">Descripción: </div>
+
+      </div>
+    </div>
   </div>
+
+  <script src="characters.js"></script>
 
   <div class="footer">
     <h3>Creada por Jazz Fortuna(c) 2023, todos los derechos reservados.</h3>
