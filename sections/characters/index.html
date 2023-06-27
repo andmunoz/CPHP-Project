@@ -28,26 +28,81 @@
       <a href="javascript:void(0)" class="closebtn" onclick="closeCharacterList()">&times;</a>
       <div id="personajes"></div>
     </div>
+
     <div id="main">
-      <div class="grid-container">
-        <div class="grid-value grid-col2 grid-row6"><img src="../../assets/_No-Photo.jpg" width="300px"/></div>
-        <div class="grid-label">Personaje:</div><div class="grid-value grid-col2" id="nombre"></div>
-        <div class="grid-label">Jugador:</div><div class="grid-value grid-col2" id="jugador"></div>
-
-        <div class="grid-label">Rol:</div><div class="grid-value grid-col2" id="rol"></div>
-        <div class="grid-label">Fecha de Nacimiento:</div><div class="grid-value grid-col2" id="fecha_nacimiento"></div>
-
-        <div class="grid-label">Estatura:</div><div class="grid-value grid-col2" id="estatura"></div>
-        <div class="grid-label">Experiencia:</div><div class="grid-value grid-col2" id="experiencia"></div>
-
-        <div class="grid-label">Peso:</div><div class="grid-value grid-col2" id="peso"></div>
-        <div class="grid-label">Estado:</div><div class="grid-value grid-col2" id="estado"></div>
-
-        <div class="grid-label grid-fill grid-col6" style="text-align: left">Descripción: </div>
-        <div class="grid-value grid-fill grid-col6" id="descripcion">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius mattis placerat. Fusce euismod ante placerat vestibulum maximus. In hac habitasse platea dictumst. Proin eu auctor leo, quis vulputate felis. Aenean eget massa a sem blandit placerat quis sit amet lacus. Fusce tincidunt vulputate diam. Aliquam rutrum pharetra est, sit amet tristique ante vulputate non.
-          Integer laoreet vestibulum euismod. Cras at lectus erat. Donec vitae nibh et orci consequat maximus nec vel felis. Nam interdum, sapien aliquet consequat tincidunt, sem mi vestibulum risus, a tincidunt magna mi a nunc. Maecenas congue augue elit, sit amet porttitor magna pulvinar et. Nam vestibulum interdum nisl non sollicitudin. In hac habitasse platea dictumst. Vestibulum lorem velit, rhoncus sed massa a, ultrices venenatis ligula. Mauris ligula urna, lobortis id lorem tempus, ornare convallis lacus. Aenean eleifend erat et risus facilisis feugiat. Suspendisse non risus ligula. Vestibulum imperdiet lobortis accumsan. Nam ligula quam, tincidunt vitae metus vel, imperdiet molestie risus. Aenean erat tortor, vulputate tincidunt lectus nec, placerat vulputate ipsum. Proin sodales eros a convallis hendrerit.</div>
+      <div class="grid-container grid-general-block" id="general-block-title">
+        <div class="grid-fill grid-col8"><p class="grid-section">DATOS BÁSICOS</p></div>
       </div>
+      <div class="grid-container grid-general-block" id="general-block-content">
+        <div class="grid-label text-center grid-col2"><label>Imagen del Personaje</label></div>
+        <div class="grid-label text-right"><label for="nombre">Personaje:</label></div>
+        <div class="grid-col2"><input type="text" class="grid-value" id="nombre"/></div>
+
+        <div class="grid-label text-right"><label for="jugador">Jugador:</label></div>
+        <div class="grid-col2"><input type="text" class="grid-value" id="jugador"/></div>
+
+        <div class="grid-fill grid-col2 grid-row6"><img src="../../assets/_No-Photo.jpg" width="100%"/></div>
+        <div class="grid-label text-right"><label for="rol">Rol:</label></div>
+        <div class="grid-col2"><input type="text" class="grid-value" id="rol"/></div>
+
+        <div class="grid-label text-right"><label for="fecha_nacimiento">Fecha de Nacimiento:</label></div>
+        <div class="grid-col2"><input type="text" class="grid-value" id="fecha_nacimiento"/></div>
+
+        <div class="grid-label text-right"><label for="estatura">Estatura:</label></div>
+        <div class="grid-col2"><input type="text" class="grid-value" id="estatura"/></div>
+
+        <div class="grid-label text-right"><label for="experiencia">Experiencia:</label></div>
+        <div class="grid-col2"><input type="text" class="grid-value" id="experiencia"/></div>
+
+        <div class="grid-label text-right"><label for="peso">Peso:</label></div>
+        <div class="grid-col2"><input type="text" class="grid-value" id="peso"/></div>
+
+        <div class="grid-label text-right"><label for="estado">Estado:</label></div>
+        <div class="grid-col2"><input type="text" class="grid-value" id="estado"/></div>
+
+        <div class="grid-label text-right"><label for="descripcion">Descripción:</label></div>
+        <div class="grid-fill grid-col5"><textarea id="descripcion" class="grid-value" rows="10"></textarea></div>
+      </div>
+
+      <div class="grid-container grid-attributes-block" id="attributes-block-title">
+        <div class="grid-fill grid-col9"><p class="grid-section">ATRIBUTOS</p></div>
+      </div>
+      <div class="grid-container grid-attributes-block" id="attributes-block-content">
+        <div class="grid-label text-center"><label for="inteligencia">INT</label></div>
+        <div class="grid-label text-center"><label for="reflejos">REF</label></div>
+        <div class="grid-label text-center"><label for="tecnica">TEC</label></div>
+        <div class="grid-label text-center"><label for="frialdad">FRI</label></div>
+        <div class="grid-label text-center"><label for="atractivo">ATR</label></div>
+        <div class="grid-label text-center"><label for="suerte">SUE</label></div>
+        <div class="grid-label text-center"><label for="movimiento">MOV</label></div>
+        <div class="grid-label text-center"><label for="tipo_corporal">TCO</label></div>
+        <div class="grid-label text-center"><label for="empatia">EMP</label></div>
+
+        <div><input type="text" class="grid-value text-center" id="inteligencia"/></div>
+        <div><input type="text" class="grid-value text-center" id="reflejos"/></div>
+        <div><input type="text" class="grid-value text-center" id="tecnica"/></div>
+        <div><input type="text" class="grid-value text-center" id="frialdad"/></div>
+        <div><input type="text" class="grid-value text-center" id="atractivo"/></div>
+        <div><input type="text" class="grid-value text-center" id="suerte"/></div>
+        <div><input type="text" class="grid-value text-center" id="movimiento"/></div>
+        <div><input type="text" class="grid-value text-center" id="tipo_corporal"/></div>
+        <div><input type="text" class="grid-value text-center" id="empatia"/></div>
+      </div>
+
+      <div class="grid-container grid-abilities-block" id="abilities-block-title">
+        <div class="grid-fill grid-col9"><p class="grid-section">HABILIDADES</p></div>
+      </div>
+      <div class="grid-container grid-abilities-block" id="abilities-block-content"></div>
+
+      <div class="grid-container grid-cyberware-block" id="cyberware-block-title">
+        <div class="grid-fill grid-col9"><p class="grid-section">IMPLANTES</p></div>
+      </div>
+      <div class="grid-container grid-cyberware-block" id="cyberware-block-content"></div>
+
+      <div class="grid-container grid-gear-block" id="gear-block-title">
+        <div class="grid-fill grid-col9"><p class="grid-section">ARMAS Y EQUIPO</p></div>
+      </div>
+      <div class="grid-container grid-gear-block" id="gear-block-content"></div>
     </div>
   </div>
 
