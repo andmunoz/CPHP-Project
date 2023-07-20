@@ -92,17 +92,91 @@
       <div class="grid-container grid-abilities-block" id="abilities-block-title">
         <div class="grid-fill grid-col9"><p class="grid-section">HABILIDADES</p></div>
       </div>
-      <div class="grid-container grid-abilities-block" id="abilities-block-content"></div>
+      <div id="abilities-block">
+        <div class="grid-container grid-abilities-block" id="abilities-block-headers">
+          <div class="text-center"><label>Atributo</label></div>
+          <div class="text-center"><label>Nombre</label></div>
+          <div class="text-center"><label>Puntuación</label></div>
+          <div class="text-center"><label>Tirada Base</label></div>
+        </div> 
+        <div class="grid-container grid-abilities-block" id="abilities-block-content"></div>
+      </div>
 
       <div class="grid-container grid-cyberware-block" id="cyberware-block-title">
         <div class="grid-fill grid-col9"><p class="grid-section">IMPLANTES</p></div>
       </div>
-      <div class="grid-container grid-cyberware-block" id="cyberware-block-content"></div>
+      <div id="cyberware-block">
+        <div class="grid-container grid-cyberware-block" id="cyberware-block-headers">
+          <div class="text-center"><label>Tipo</label></div>
+          <div class="text-center"><label>Nombre</label></div>
+          <div class="text-center"><label>Disp</label></div>
+          <div class="text-center"><label>Hum</label></div>
+          <div class="text-center"><label>Ubicación</label></div>
+          <div class="text-center"><label>Peso</label></div>
+          <div class="text-center"><label>Descripción</label></div>
+        </div> 
+        <div class="grid-container grid-cyberware-block" id="cyberware-block-content"></div>
+      </div> 
 
       <div class="grid-container grid-gear-block" id="gear-block-title">
         <div class="grid-fill grid-col9"><p class="grid-section">ARMAS Y EQUIPO</p></div>
       </div>
-      <div class="grid-container grid-gear-block" id="gear-block-content"></div>
+      <div id="gear-block">
+        <div class="grid-container grid-gear-block" id="gear-block-headers">
+          <div class="text-center"><label>Tipo</label></div>
+          <div class="text-center"><label>Nombre</label></div>
+          <div class="text-center"><label>Disp</label></div>
+          <div class="text-center"><label>Ubicación</label></div>
+          <div class="text-center"><label>Peso</label></div>
+          <div class="text-center"><label>Descripción</label></div>
+        </div>
+        <div class="grid-container grid-gear-block" id="gear-block-content"></div>
+      </div>
+
+      <div class="grid-container grid-other-block" id="other-block-title">
+        <div class="grid-fill grid-col9"><p class="grid-section">OTROS</p></div>
+      </div>
+      <div id="other-block">
+        <div class="grid-container grid-other-block" id="other-block-headers">
+          <div class="text-center"><label>Tipo</label></div>
+          <div class="text-center"><label>Nombre</label></div>
+          <div class="text-center"><label>Descripción</label></div>
+        </div>
+        <div class="grid-container grid-other-block" id="other-block-content"></div>
+      </div>
+
+      <div class="grid-container grid-extra-block" id="extra-block-title">
+        <div class="grid-fill grid-col8"><p class="grid-section">INFORMACIÓN ADICIONAL</p></div>
+      </div>
+      <div class="grid-container grid-extra-block" id="extra-block-content">
+        <div class="grid-label text-right"><label for="mtc">MTC:</label></div>
+        <div class="grid-col"><input type="text" class="grid-value" id="mtc"/></div>
+
+        <div class="grid-label text-right"><label for="salvacion">Salvación:</label></div>
+        <div class="grid-col"><input type="text" class="grid-value" id="salvacion"/></div>
+
+        <div class="grid-label text-right"><label for="creditos">Dinero Actual (creds):</label></div>
+        <div class="grid-col1"><input type="text" class="grid-value" id="creditos"/></div>
+
+        <div class="grid-label text-right"><label for="caminar">Caminar (mts):</label></div>
+        <div class="grid-col"><input type="text" class="grid-value" id="caminar"/></div>
+
+        <div class="grid-label text-right"><label for="correr">Correr (mts):</label></div>
+        <div class="grid-col"><input type="text" class="grid-value" id="correr"/></div>
+
+        <div class="grid-label text-right"><label for="saltar">Saltar (mts):</label></div>
+        <div class="grid-col"><input type="text" class="grid-value" id="saltar"/></div>
+
+        <div class="grid-label text-right"><label for="cargar">Cargar (kgs):</label></div>
+        <div class="grid-col"><input type="text" class="grid-value" id="cargar"/></div>
+
+        <div class="grid-label text-right"><label for="levantar">Levantar (kgs):</label></div>
+        <div class="grid-col"><input type="text" class="grid-value" id="levantar"/></div>
+
+        <div class="grid-label text-right"><label for="carga">Carga Total (kgs):</label></div>
+        <div class="grid-col"><input type="text" class="grid-value" id="carga"/></div>
+      </div>
+
     </div>
   </div>
 

@@ -163,6 +163,22 @@ img {
     grid-template-columns: 100px auto 100px 100px;    
 }
 
+.grid-cyberware-block {
+    grid-template-columns: 100px 250px 100px 50px 100px 50px auto;
+}
+
+.grid-gear-block {
+    grid-template-columns: 100px 400px 100px 100px 50px auto;
+}
+
+.grid-other-block {
+    grid-template-columns: 200px 300px auto;
+}
+
+.grid-extra-block {
+    grid-template-columns: 200px 200px auto 200px auto 200px;
+}
+
 .grid-container div {
     padding: 4px 4px 4px 4px;
 }
