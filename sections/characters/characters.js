@@ -168,7 +168,18 @@ function fillCharacterSheet(id){
     $('#salvacion').val(tco);
 
     /* Leave readonly data */
-    $('.grid-value').attr('readonly', true);
+    changeReadOnlyMode();
+}
+
+function changeReadOnlyMode() {
+    if ($('.grid-value').attr('readonly')) {
+        $('.grid-value').attr('readonly', false);
+        $('#update-buton').text('Guardar');    
+    }
+    else {
+        $('.grid-value').attr('readonly', true);
+        $('#update-buton').text('Actualizar');    
+    }
 }
 
 $(document).ready(function(){
@@ -192,5 +203,8 @@ $(document).ready(function(){
     });
     $('#extra-block-title').click(function(){
         $('#extra-block-content').slideToggle(500);
+    });
+    $('#update-button').click(function(){
+        changeReadOnlyMode();
     });
 });
