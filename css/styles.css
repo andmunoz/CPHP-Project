@@ -167,11 +167,10 @@ button {
     display: grid;
     gap: 10px;
     font-size: 120%;
-    /* background-color: white; */
 }
 
 .grid-general-block {
-    grid-template-columns: 150px 150px 200px auto auto 200px auto auto;    
+    grid-template-columns: 150px 150px 150px auto auto 180px auto auto;    
 }
 
 .grid-attributes-block {
@@ -213,13 +212,39 @@ button {
 
 .grid-label {
     color: lightgray;
+    background-color: transparent;
 }
 
 .grid-value {
     color: yellow;
     font-size: 120%;
     width: 100%;
-    background-color: #222222;
+    background-color: black;
+    border: 0px transparent;
+}
+
+@media print {
+    .grid-section {
+        font-size: 100%;
+        color: white;
+        background-color: black;
+    }
+
+    .grid-label {
+        font-size: 80%;
+        color: black;
+        background-color: gray;
+    }
+
+    .grid-value {
+        font-size: 80%;
+        color: black;
+        background-color: transparent;
+    }
+
+    .grid-general-block {
+        grid-template-columns: 80px 80px 100px auto auto 160px auto auto;
+    }
 }
 
 .grid-col2 { grid-column: span 2; }

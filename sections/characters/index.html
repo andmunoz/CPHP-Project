@@ -9,29 +9,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../css/styles.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <style type="text/css" id="printer-mode">
+      @media print {
+        body { 
+          display: none;
+        }
+      }
+    </style>
     <title>Cyberpunk Help Page v2.0</title>
 </head>
 <body>
 
-  <div class="header">
+  <div id="header-section" class="header">
     <ul>
       <li><a href="../../"><img src="../../assets/cyberpunk.gif" style="height: 30px;"/></a></li>
-      <li><a href="#pjs" onclick="openCharacterList('pjs');">Salón de la Fama</a></li>
-      <li><a href="#pnjs" onclick="openCharacterList('pnjs');">Personajes Deshechables</a></li>
-      <li style="float:right"><a href="#creator">Crear Personaje</a></li>
+      <li><a href="#pjs" onclick="openCharacterList('pjs');">Salón de la Fama (PCs)</a></li>
+      <li><a href="#pnjs" onclick="openCharacterList('pnjs');">Personajes Deshechables (NPCs)</a></li>
     </ul>
   </div>
 
-  <div class="body">
+  <div id="body-section" class="body">
     <div id="sideNav" class="sidenav">
       <h3>Personajes</h3>
       <a href="javascript:void(0)" class="closebtn" onclick="closeCharacterList()">&times;</a>
-      <div id="personajes"></div>
+      <div id="personajes_loading" style="display:block"><img src="../../assets/loading.gif"/></div>
+      <div id="personajes" style="display:none"></div>
     </div>
 
     <div id="main">
-      <div class="grid-container grid-general-block">
-        <div class="grid-fill grid-col8 content-right"><button id="update-button">Update</button></div>
+      <div id="action-block" class="grid-container grid-general-block">
+        <div class="grid-fill grid-col8 content-right">
+          <button id="create-button">Crear Personaje</button>
+          <button id="edit-button">Editar Personaje</button>
+          <button id="save-button">Guardar Hoja</button>
+          <button id="print-button">Imprimir Hoja</button>
+        </div>
       </div>
 
       <div class="grid-container grid-general-block" id="general-block-title">
@@ -45,7 +57,7 @@
         <div class="grid-label text-right"><label for="jugador">Jugador:</label></div>
         <div class="grid-col2"><input type="text" class="grid-value" id="jugador"/></div>
 
-        <div class="grid-fill grid-col2 grid-row6"><img src="../../assets/_No-Photo.jpg" width="100%"/></div>
+        <div class="grid-fill grid-col2 grid-row6"><img src="../../assets/_No-Photo.jpg" width="100%" id="retrato" /></div>
         <div class="grid-label text-right"><label for="rol">Rol:</label></div>
         <div class="grid-col2"><input type="text" class="grid-value" id="rol"/></div>
 
@@ -186,7 +198,7 @@
 
   <script src="characters.js"></script>
 
-  <div class="footer">
+  <div id="footer-section" class="footer">
     <h3>Creada por Jazz Fortuna(c) 2023, todos los derechos reservados.</h3>
   </div>
 

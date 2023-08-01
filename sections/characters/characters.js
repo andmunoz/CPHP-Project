@@ -2,35 +2,11 @@ let characterList = null;
 let actualCharacter = {};
 
 function openCharacterList(){
-    if (!characterList) {
-        $.ajax({
-            url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/find',
-            method: 'POST',
-            timeout: 0,
-            headers: {
-                'Content-Type': 'application/json',
-                'apikey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL'
-            },
-            data: JSON.stringify({
-                'dataSource': 'Cluster0',
-                'database': 'cyberpunk',
-                'collection': 'personajes'
-            }),
-            success: function(data) {
-                characterList = data.documents;
-                let html = '\n';
-                $.each(data.documents, function(id, obj) {
-                    html += '<a href="#" onclick="fillCharacterSheet(' + id + ')">' + obj.nombre + '</a>\n';
-                });
-                $('#personajes').html(html);
-            },
-            error: function(obj, error) {
-                console.error('Error ' + error);
-            }
-        }); 
-    }
     $('#sideNav').css('width', '250px');
     $('#main').css('marginLeft', '250px').fadeTo(1000, 0.4);
+    if (!characterList) {
+        loadCharacterList();
+    }
 }
 
 function closeCharacterList(){
@@ -38,17 +14,61 @@ function closeCharacterList(){
     $('#main').css('marginLeft', '0').fadeTo(1000, 1);
 }
 
+function loadCharacterList(){
+    $('#personajes').hide();
+    $('#personajes_loading').show();
+    $.ajax({
+        url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/find',
+        method: 'POST',
+        timeout: 0,
+        headers: {
+            'Content-Type': 'application/json',
+            'apikey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL'
+        },
+        data: JSON.stringify({
+            'dataSource': 'Cluster0',
+            'database': 'cyberpunk',
+            'collection': 'personajes'
+        }),
+        success: function(data) {
+            characterList = data.documents;
+            let html = '\n';
+            $.each(data.documents, function(id, obj) {
+                html += '<a href="#" onclick="fillCharacterSheet(' + id + ')">' + obj.nombre + '</a>\n';
+            });
+            $('#personajes').html(html);
+            $('#personajes_loading').hide();
+            $('#personajes').show();
+        },
+        error: function(obj, error) {
+            console.error('Error ' + error);
+        }
+    }); 
+}
+
 function fillCharacterSheet(id){
     actualCharacter = characterList[id];
+    actualCharacter['id'] = id;
+    console.log(actualCharacter);
+
+    /* Hide buttons meanwhile load data */
+    $('#create-button').hide();
+    $('#edit-button').hide();
+    $('#save-button').hide();
+
+    /* Change to readonly mode */
+    changeEditMode(false);
 
     /* Load general information of character */ 
     $('#nombre').val(actualCharacter['nombre']);
     $('#jugador').val(actualCharacter['jugador']);
     $('#rol').val(actualCharacter['rol']);
+    $('#retrato').attr('src', actualCharacter['imagenes']['retrato']);
     $('#fecha_nacimiento').val(actualCharacter['fecha_nacimiento']);
     $('#estatura').val(actualCharacter['estatura'] + ' mts');
     $('#peso').val(actualCharacter['peso'] + ' kgs');
     $('#experiencia').val(actualCharacter['experiencia'] + ' pp');
+    $('#creditos').val(actualCharacter['dinero']);
     $('#estado').val(actualCharacter['estado']);
 
     /* Load attribute values of character */
@@ -147,7 +167,6 @@ function fillCharacterSheet(id){
     $('#gear-block-content').html(html);
 
     /* Calculate and show extra data */
-    $('#creditos').val(actualCharacter['dinero']);
     $('#carga').val(cargo);
     let tco = parseInt(actualCharacter['atributos']['tipo_corporal']);
     $('#cargar').val(tco * 10);
@@ -167,19 +186,67 @@ function fillCharacterSheet(id){
     $('#mtc').val(mtc);
     $('#salvacion').val(tco);
 
-    /* Leave readonly data */
-    changeReadOnlyMode();
+    /* Close character list after load data */
+    closeCharacterList();
+
+    /* Change status of buttons */
+    $('#edit-button').show();
+    $('#print-button').show();
 }
 
-function changeReadOnlyMode() {
-    if ($('.grid-value').attr('readonly')) {
-        $('.grid-value').attr('readonly', false);
-        $('#update-buton').text('Guardar');    
+function changeEditMode(mode) {
+    $('.grid-value').attr('readonly', !mode);
+    if (mode) {
+        $('.grid-value').css({'background-color': '#333333', 
+                              'color': 'yellow'});
     }
     else {
-        $('.grid-value').attr('readonly', true);
-        $('#update-buton').text('Actualizar');    
+        $('.grid-value').css({'background-color': 'black', 
+                              'color': 'yellow'});
     }
+}
+
+function printCharacterSheet() {
+    $('#printer-mode').html('@media print { body { display: block; } }');
+    $('#header-section').css({'display': 'none'});
+    $('#action-block').css({'display': 'none'});
+    window.print();
+    $('#action-block').css({'display': 'block'});
+    $('#header-section').css({'display': 'block'});
+    $('#printer-mode').html('@media print { body { display: none; } }');
+}
+
+function saveCharacterSheet() {
+    let objectId = 'ObjectId(\'' + actualCharacter['_id'] + '\')';
+    console.log('Updating ' + objectId);
+    $.ajax({
+        url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/updateOne',
+        method: 'POST',
+        timeout: 0,
+        headers: {
+            'Content-Type': 'application/json',
+            'apikey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL'
+        },
+        data: JSON.stringify({
+            'dataSource': 'Cluster0',
+            'database': 'cyberpunk',
+            'collection': 'personajes',
+            'filter': {
+                '_id': objectId
+            },
+            'update': {
+                '$set': {
+                  'jugador': actualCharacter['jugador']
+                }
+            }
+        }),
+        success: function(response) {
+            console.log(response);
+        },
+        error: function(obj, error) {
+            console.error('Error ' + error);
+        }
+    }); 
 }
 
 $(document).ready(function(){
@@ -204,7 +271,31 @@ $(document).ready(function(){
     $('#extra-block-title').click(function(){
         $('#extra-block-content').slideToggle(500);
     });
-    $('#update-button').click(function(){
-        changeReadOnlyMode();
+    $('#create-button').click(function(){
+        changeEditMode(true);
+        $('#create-button').hide();
+        $('#print-button').hide();
+        $('#save-button').show();
     });
+    $('#edit-button').click(function(){
+        changeEditMode(true);
+        $('#edit-button').hide();
+        $('#print-button').hide();
+        $('#save-button').show();
+    });
+    $('#save-button').click(function(){
+        changeEditMode(false);
+        saveCharacterSheet();
+        $('#save-button').hide();
+        $('#edit-button').show();
+        $('#print-button').show();
+    });
+    $('#print-button').click(function(){
+        printCharacterSheet();
+    });
+
+    $('#edit-button').hide()
+    $('#save-button').hide()
+    $('#print-button').hide()
+    changeEditMode(false);
 });
