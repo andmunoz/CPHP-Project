@@ -31,7 +31,7 @@ function loadCharacterList(){
         url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/find',
         method: 'POST',
         timeout: 0,
-        headers: {https://tenor.com/es/view/matu-garces-me-caga-enojada-frustración-frustrada-gif-13005334
+        headers: {
             'Content-Type': 'application/json',
             'apikey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL'
         },
