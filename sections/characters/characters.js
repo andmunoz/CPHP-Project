@@ -1,3 +1,13 @@
+const attributes = { 'INT': 'inteligencia', 
+                     'REF': 'reflejos', 
+                     'TEC': 'tecnica',
+                     'FRI': 'frialdad',
+                     'ATR': 'atractivo',
+                     'SUE': 'suerte',
+                     'MOV': 'movimiento',
+                     'TCO': 'tipo_corporal', 
+                     'EMP': 'empatia' };
+
 let characterList = null;
 let actualCharacter = {};
 
@@ -46,9 +56,9 @@ function loadCharacterList(){
     }); 
 }
 
-function fillCharacterSheet(id){
-    actualCharacter = characterList[id];
-    actualCharacter['id'] = id;
+function fillCharacterSheet(i){
+    actualCharacter = characterList[i];
+    actualCharacter['i'] = i;
     console.log(actualCharacter);
 
     /* Hide buttons meanwhile load data */
@@ -63,24 +73,15 @@ function fillCharacterSheet(id){
     $('#nombre').val(actualCharacter['nombre']);
     $('#jugador').val(actualCharacter['jugador']);
     $('#rol').val(actualCharacter['rol']);
-    $('#retrato').attr('src', actualCharacter['imagenes']['retrato']);
     $('#fecha_nacimiento').val(actualCharacter['fecha_nacimiento']);
-    $('#estatura').val(actualCharacter['estatura'] + ' mts');
-    $('#peso').val(actualCharacter['peso'] + ' kgs');
-    $('#experiencia').val(actualCharacter['experiencia'] + ' pp');
+    $('#estatura').val(actualCharacter['estatura']);
+    $('#peso').val(actualCharacter['peso']);
+    $('#experiencia').val(actualCharacter['experiencia']);
     $('#creditos').val(actualCharacter['dinero']);
     $('#estado').val(actualCharacter['estado']);
+    $('#retrato').attr('src', actualCharacter['imagenes']['retrato']);
 
     /* Load attribute values of character */
-    const attributes = { 'INT': 'inteligencia', 
-                         'REF': 'reflejos', 
-                         'TEC': 'tecnica',
-                         'FRI': 'frialdad',
-                         'ATR': 'atractivo',
-                         'SUE': 'suerte',
-                         'MOV': 'movimiento',
-                         'TCO': 'tipo_corporal', 
-                         'EMP': 'empatia' };
     $.each(actualCharacter['atributos'], function(id, value){
         $('#' + id).val(value);
     });
@@ -166,6 +167,18 @@ function fillCharacterSheet(id){
     });
     $('#gear-block-content').html(html);
 
+    /* Load other gear for character */
+    html = '';
+    number = 0;
+    $.each(actualCharacter['otros'], function(id, otro){
+        number++;
+        html += '<div><input type="text" class="grid-value" id="otro_tipo_' + number + '" value="' + otro.tipo + '"></div>';
+        html += '<div><input type="text" class="grid-value" id="otro_nombre_' + number + '" value="' + otro.nombre + '"></div>';
+        html += '<div><input type="text" class="grid-value" id="otro_descripcion_' + number + '" value="Disimulo ' + otro.disimulo + ', PA ' + arma.pa + ' (' + arma.municion + '), ' + arma.vd + '/' + arma.balas + ', ' + arma.fiabilidad + ', Alcance ' + arma.distancia + ' mts, Daño ' + arma.danno + '"></div>';
+        cargo += parseFloat(arma.peso);
+    });
+    $('#other-block-content').html(html);
+    
     /* Calculate and show extra data */
     $('#carga').val(cargo);
     let tco = parseInt(actualCharacter['atributos']['tipo_corporal']);
@@ -217,8 +230,81 @@ function printCharacterSheet() {
 }
 
 function saveCharacterSheet() {
-    let objectId = 'ObjectId(\'' + actualCharacter['_id'] + '\')';
-    console.log('Updating ' + objectId);
+    /* Updating local information of actual character */
+    actualCharacter['jugador'] = $('#jugador').val();
+    actualCharacter['nombre'] = $('#nombre').val();
+    actualCharacter['rol'] = $('#rol').val();
+    actualCharacter['fecha_nacimiento'] = $('#fecha_nacimiento').val();
+    actualCharacter['estatura'] = $('#estatura').val();
+    actualCharacter['peso'] = $('#peso').val();
+    actualCharacter['experiencia'] = $('#experiencia').val();
+    actualCharacter['reputacion'] = $('#reputacion').val();
+    actualCharacter['descripcion'] = $('#descripcion').val();
+    actualCharacter['dinero'] = $('#dinero').val();
+
+    $.each(actualCharacter['atributos'], function(id, value){
+        actualCharacter['atributos'][id] = $('#' + id).val();
+    });
+
+    let number = 0;
+    $.each(actualCharacter['capacidad_especial'], function(id, ability){
+        number++;
+        $.each(ability, function(key, ability_value){
+            ability[key] = $('#especial_' + key +  '_' + number).val();
+        });
+    });
+    number = 0;
+    $.each(actualCharacter['habilidades_principales'], function(id, ability){
+        number++;
+        $.each(ability, function(key, ability_value){
+            ability[key] = $('#especial_' + key +  '_' + number).val();
+        });
+    });
+    $.each(actualCharacter['habilidades_secundarias'], function(id, ability){
+        number++;
+        $.each(ability, function(key, ability_value){
+            ability[key] = $('#especial_' + key +  '_' + number).val();
+        });
+    });
+    number = 0;
+    $.each(actualCharacter['ciberequipo'], function(id, implante){
+        number++;
+        $.each(implante, function(key, implante_value){
+            implante[key] = $('#implante_' + key +  '_' + number).val();
+        });
+    });
+    number = 0;
+    $.each(actualCharacter['armas'], function(id, arma){
+        number++;
+        $.each(arma, function(key, arma_value){
+            arma[key] = $('#arma_' + key +  '_' + number).val();
+        });
+    });
+    $.each(actualCharacter['blindaje'], function(id, armadura){
+        number++;
+        $.each(armadura, function(key, armadura_value){
+            armadura[key] = $('#blindaje_' + key +  '_' + number).val();
+        });
+    });
+    $.each(actualCharacter['equipo'], function(id, equipo){
+        number++;
+        $.each(equipo, function(key, equipo_value){
+            equipo[key] = $('#equipo_' + key +  '_' + number).val();
+        });
+    });
+    number = 0;
+    $.each(actualCharacter['otrogears'], function(id, otro){
+        number++;
+        $.each(otros, function(key, otro_value){
+            otro[key] = $('#otro_' + key +  '_' + number).val();
+        });
+    });
+
+    /* Updating local character in buffered list */
+    delete actualCharacter.i;
+    characterList[actualCharacter.id] = actualCharacter;
+
+    /* Sending update to database */
     $.ajax({
         url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/updateOne',
         method: 'POST',
@@ -232,12 +318,10 @@ function saveCharacterSheet() {
             'database': 'cyberpunk',
             'collection': 'personajes',
             'filter': {
-                '_id': objectId
+                '_id': actualCharacter['_id']
             },
             'update': {
-                '$set': {
-                  'jugador': actualCharacter['jugador']
-                }
+                '$set': actualCharacter
             }
         }),
         success: function(response) {
