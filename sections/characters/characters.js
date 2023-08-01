@@ -31,7 +31,7 @@ function loadCharacterList(){
         url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/find',
         method: 'POST',
         timeout: 0,
-        headers: {
+        headers: {https://tenor.com/es/view/matu-garces-me-caga-enojada-frustración-frustrada-gif-13005334
             'Content-Type': 'application/json',
             'apikey': '4YtLjj1pn1x1xOfFhGFP6XFMboKaq3bSkQ54tVRgaBAm3omTW46nHXhQH3KvG4AL'
         },
@@ -58,8 +58,6 @@ function loadCharacterList(){
 
 function fillCharacterSheet(i){
     actualCharacter = characterList[i];
-    actualCharacter['i'] = i;
-    console.log(actualCharacter);
 
     /* Hide buttons meanwhile load data */
     $('#create-button').hide();
@@ -77,9 +75,11 @@ function fillCharacterSheet(i){
     $('#estatura').val(actualCharacter['estatura']);
     $('#peso').val(actualCharacter['peso']);
     $('#experiencia').val(actualCharacter['experiencia']);
-    $('#creditos').val(actualCharacter['dinero']);
-    $('#estado').val(actualCharacter['estado']);
+    // $('#reputacion').val(actualCharacter['reputacion']);
+    $('#descripcion').val(actualCharacter['descripcion']);
     $('#retrato').attr('src', actualCharacter['imagenes']['retrato']);
+    $('#estado').val(actualCharacter['estado']);
+    $('#creditos').val(actualCharacter['dinero']);
 
     /* Load attribute values of character */
     $.each(actualCharacter['atributos'], function(id, value){
@@ -104,6 +104,7 @@ function fillCharacterSheet(i){
         html += '<div><input type="text" class="grid-value text-center" id="habilidad_valor_' + number +  '" value="' + ability.valor + '"/></div>';
         html += '<div class="text-center"><label>+' + (parseInt(actualCharacter['atributos'][attributes[ability.atributo]]) + parseInt(ability.valor)) + '</label></div>';
     });
+    number = 0;
     $.each(actualCharacter['habilidades_secundarias'], function(id, ability){
         number++;
         html += '<div><input type="text" class="grid-value text-center" id="habilidad_atributo_' + number + '" value="' + ability.atributo + '"/></div>';
@@ -145,6 +146,7 @@ function fillCharacterSheet(i){
         html += '<div><input type="text" class="grid-value" id="arma_descripcion_' + number + '" value="Disimulo ' + arma.disimulo + ', PA ' + arma.pa + ' (' + arma.municion + '), ' + arma.vd + '/' + arma.balas + ', ' + arma.fiabilidad + ', Alcance ' + arma.distancia + ' mts, Daño ' + arma.danno + '"></div>';
         cargo += parseFloat(arma.peso);
     });
+    number = 0;
     $.each(actualCharacter['blindaje'], function(id, armadura){
         number++;
         html += '<div><input type="text" class="grid-value" id="armadura_tipo_' + number + '" value="' + armadura.categoria + '"></div>';
@@ -155,6 +157,7 @@ function fillCharacterSheet(i){
         html += '<div><input type="text" class="grid-value" id="armadura_descripcion_' + number + '" value="' + armadura.tipo + ', CP ' + armadura.cp + ', CE ' + armadura.ce + '"></div>';
         cargo += parseFloat(armadura.peso);
     });
+    number = 0;
     $.each(actualCharacter['equipo'], function(id, equipo){
         number++;
         html += '<div><input type="text" class="grid-value" id="equipo_tipo_' + number + '" value="' + equipo.categoria + '"></div>';
@@ -230,6 +233,8 @@ function printCharacterSheet() {
 }
 
 function saveCharacterSheet() {
+    let i = parseInt($('#i').val());
+
     /* Updating local information of actual character */
     actualCharacter['jugador'] = $('#jugador').val();
     actualCharacter['nombre'] = $('#nombre').val();
@@ -238,9 +243,10 @@ function saveCharacterSheet() {
     actualCharacter['estatura'] = $('#estatura').val();
     actualCharacter['peso'] = $('#peso').val();
     actualCharacter['experiencia'] = $('#experiencia').val();
-    actualCharacter['reputacion'] = $('#reputacion').val();
+    // actualCharacter['reputacion'] = $('#reputacion').val();
     actualCharacter['descripcion'] = $('#descripcion').val();
-    actualCharacter['dinero'] = $('#dinero').val();
+    actualCharacter['estado'] = $('#estado').val();
+    actualCharacter['creditos'] = $('#creditos').val();
 
     $.each(actualCharacter['atributos'], function(id, value){
         actualCharacter['atributos'][id] = $('#' + id).val();
@@ -257,13 +263,14 @@ function saveCharacterSheet() {
     $.each(actualCharacter['habilidades_principales'], function(id, ability){
         number++;
         $.each(ability, function(key, ability_value){
-            ability[key] = $('#especial_' + key +  '_' + number).val();
+            ability[key] = $('#habilidad_principal_' + key +  '_' + number).val();
         });
     });
+    number = 0;
     $.each(actualCharacter['habilidades_secundarias'], function(id, ability){
         number++;
         $.each(ability, function(key, ability_value){
-            ability[key] = $('#especial_' + key +  '_' + number).val();
+            ability[key] = $('#habilidad_secundaria_' + key +  '_' + number).val();
         });
     });
     number = 0;
@@ -280,12 +287,14 @@ function saveCharacterSheet() {
             arma[key] = $('#arma_' + key +  '_' + number).val();
         });
     });
+    number = 0;
     $.each(actualCharacter['blindaje'], function(id, armadura){
         number++;
         $.each(armadura, function(key, armadura_value){
-            armadura[key] = $('#blindaje_' + key +  '_' + number).val();
+            armadura[key] = $('#armadura_' + key +  '_' + number).val();
         });
     });
+    number = 0;
     $.each(actualCharacter['equipo'], function(id, equipo){
         number++;
         $.each(equipo, function(key, equipo_value){
@@ -293,7 +302,7 @@ function saveCharacterSheet() {
         });
     });
     number = 0;
-    $.each(actualCharacter['otrogears'], function(id, otro){
+    $.each(actualCharacter['otros'], function(id, otro){
         number++;
         $.each(otros, function(key, otro_value){
             otro[key] = $('#otro_' + key +  '_' + number).val();
@@ -301,8 +310,8 @@ function saveCharacterSheet() {
     });
 
     /* Updating local character in buffered list */
-    delete actualCharacter.i;
-    characterList[actualCharacter.id] = actualCharacter;
+    actualCharacter['ultima_actualizacion'] = new Date().toLocaleString();
+    characterList[i] = actualCharacter;
 
     /* Sending update to database */
     $.ajax({
