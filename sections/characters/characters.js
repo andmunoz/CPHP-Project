@@ -1,3 +1,4 @@
+/* Define constants and variables useful for site */
 const attributes = { 'INT': 'inteligencia', 
                      'REF': 'reflejos', 
                      'TEC': 'tecnica',
@@ -7,10 +8,10 @@ const attributes = { 'INT': 'inteligencia',
                      'MOV': 'movimiento',
                      'TCO': 'tipo_corporal', 
                      'EMP': 'empatia' };
-
 let characterList = null;
 let actualCharacter = {};
 
+/* Functions to interact with UI */
 function openCharacterList(){
     $('#sideNav').css('width', '250px');
     $('#main').css('marginLeft', '250px').fadeTo(1000, 0.4);
@@ -24,6 +25,19 @@ function closeCharacterList(){
     $('#main').css('marginLeft', '0').fadeTo(1000, 1);
 }
 
+function changeEditMode(mode) {
+    $('.grid-value').attr('readonly', !mode);
+    if (mode) {
+        $('.grid-value').css({'background-color': '#333333', 
+                              'color': 'yellow'});
+    }
+    else {
+        $('.grid-value').css({'background-color': 'black', 
+                              'color': 'yellow'});
+    }
+}
+
+/* Functions to interact with data */
 function loadCharacterList(){
     $('#personajes').hide();
     $('#personajes_loading').show();
@@ -210,18 +224,6 @@ function fillCharacterSheet(i){
     $('#print-button').show();
 }
 
-function changeEditMode(mode) {
-    $('.grid-value').attr('readonly', !mode);
-    if (mode) {
-        $('.grid-value').css({'background-color': '#333333', 
-                              'color': 'yellow'});
-    }
-    else {
-        $('.grid-value').css({'background-color': 'black', 
-                              'color': 'yellow'});
-    }
-}
-
 function printCharacterSheet() {
     $('#printer-mode').html('@media print { body { display: block; } }');
     $('#header-section').css({'display': 'none'});
@@ -342,6 +344,7 @@ function saveCharacterSheet() {
     }); 
 }
 
+/* Initial UI configurations */
 $(document).ready(function(){
     $('#general-block-title').click(function(){
         $('#general-block-content').slideToggle(500);
