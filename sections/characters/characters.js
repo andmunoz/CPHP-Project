@@ -8,6 +8,11 @@ const attributes = { 'INT': 'inteligencia',
                      'MOV': 'movimiento',
                      'TCO': 'tipo_corporal', 
                      'EMP': 'empatia' };
+const base_array = new Map([
+    ['capacidad_especial', {nombre: '', valor:''}],
+    ['habilidades_principales', {atributo: '', nombre: '', valor:''}],
+    ['habilidades_secundarias', {atributo: '', nombre: '', valor:''}],
+]);
 let characterList = null;
 let actualCharacter = {};
 
@@ -30,14 +35,20 @@ function changeEditMode(mode) {
     if (mode) {
         $('.grid-value').css({'background-color': '#333333', 
                               'color': 'yellow'});
+        $('.action-buttons').show();
     }
     else {
         $('.grid-value').css({'background-color': 'black', 
                               'color': 'yellow'});
+        $('.action-buttons').show();
     }
 }
 
 /* Functions to interact with data */
+function add_new_row(tipo) {
+    actualCharacter();
+}
+
 function loadCharacterList(){
     $('#personajes').hide();
     $('#personajes_loading').show();
