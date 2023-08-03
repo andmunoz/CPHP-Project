@@ -35,12 +35,12 @@ function changeEditMode(mode) {
     if (mode) {
         $('.grid-value').css({'background-color': '#333333', 
                               'color': 'yellow'});
-        $('.action-buttons').show();
+        $('.action-buttons').css({'display': 'block'});
     }
     else {
         $('.grid-value').css({'background-color': 'black', 
                               'color': 'yellow'});
-        $('.action-buttons').show();
+        $('.action-buttons').css({'display': 'none'});
     }
 }
 
@@ -358,6 +358,7 @@ function saveCharacterSheet() {
 
 /* Initial UI configurations */
 $(document).ready(function(){
+    // Sections title hide and show
     $('#general-block-title').click(function(){
         $('#general-block-content').slideToggle(500);
     });   
@@ -379,6 +380,8 @@ $(document).ready(function(){
     $('#extra-block-title').click(function(){
         $('#extra-block-content').slideToggle(500);
     });
+
+    // Action buttons
     $('#create-button').click(function(){
         changeEditMode(true);
         $('#create-button').hide();
@@ -405,9 +408,10 @@ $(document).ready(function(){
         printCharacterSheet();
     });
 
-    $('#edit-button').hide()
-    $('#save-button').hide()
+    // Initial status of UI
+    $('#edit-button').hide();
+    $('#save-button').hide();
     $('#delete-button').hide();
-    $('#print-button').hide()
+    $('#print-button').hide();
     changeEditMode(false);
 });
