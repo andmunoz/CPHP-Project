@@ -107,7 +107,7 @@ function fillCharacterSheet(i){
         number++;
         html += '<div class="text-center"><label>Especial</label></div>';
         html += '<div><input type="text" class="grid-value" id="especial_nombre_' + number + '" value="' + ability.nombre + '"/></div>';
-        html += '<div><input type="text" class="grid-value text-center" id="especial_valor' + number + '" value="' + ability.valor + '"/></div>';
+        html += '<div><input type="text" class="grid-value text-center" id="especial_valor_' + number + '" value="' + ability.valor + '"/></div>';
         html += '<div></div>';
     });
     number = 0;
@@ -222,6 +222,7 @@ function fillCharacterSheet(i){
     /* Change status of buttons */
     $('#edit-button').show();
     $('#print-button').show();
+    $('#delete-button').show();
 }
 
 function printCharacterSheet() {
@@ -370,12 +371,14 @@ $(document).ready(function(){
     $('#create-button').click(function(){
         changeEditMode(true);
         $('#create-button').hide();
+        $('#delete-button').hide();
         $('#print-button').hide();
         $('#save-button').show();
     });
     $('#edit-button').click(function(){
         changeEditMode(true);
         $('#edit-button').hide();
+        $('#delete-button').hide();
         $('#print-button').hide();
         $('#save-button').show();
     });
@@ -384,6 +387,7 @@ $(document).ready(function(){
         saveCharacterSheet();
         $('#save-button').hide();
         $('#edit-button').show();
+        $('#delete-button').show();
         $('#print-button').show();
     });
     $('#print-button').click(function(){
@@ -392,6 +396,7 @@ $(document).ready(function(){
 
     $('#edit-button').hide()
     $('#save-button').hide()
+    $('#delete-button').hide();
     $('#print-button').hide()
     changeEditMode(false);
 });
