@@ -8,11 +8,10 @@ const attributes = { 'INT': 'inteligencia',
                      'MOV': 'movimiento',
                      'TCO': 'tipo_corporal', 
                      'EMP': 'empatia' };
-const base_array = new Map([
-    ['capacidad_especial', {nombre: '', valor:''}],
-    ['habilidades_principales', {atributo: '', nombre: '', valor:''}],
-    ['habilidades_secundarias', {atributo: '', nombre: '', valor:''}],
-]);
+let base_array = new Object();
+base_array['capacidad_especial'] = {'atributo': false, 'nombre': '', 'valor': 0, 'base': false};
+base_array['habilidades_principales'] = {'atributo': 0, 'nombre': '', 'valor': 0, 'base': false};
+base_array['habilidades_secundarias'] = {'atributo': 0, 'nombre': '', 'valor': 0, 'base': false};
 let characterList = null;
 let actualCharacter = {};
 
@@ -45,8 +44,23 @@ function changeEditMode(mode) {
 }
 
 /* Functions to interact with data */
-function add_new_row(tipo) {
-    actualCharacter();
+function addNewRow(type, block, name) {
+    let newRow = base_array[type];
+    let newDataRow = {};
+    let html = '';
+    $.each(newRow, function(key, value){
+        html += '<div>'
+        if (value !== false) {
+            newDataRow[key] = value;
+            html += '<input type="text" class="grid-value' + (typeof value == 'number'?' text-center':'') + '" id="' + name + '_' + key + '_' + (actualCharacter[type].length + 1) + '" value=""/>';
+        }
+        html += '</div>';
+    });
+    console.log(html);
+    actualCharacter[type].push(newDataRow);
+    $('#' + block + '-block-content').append(html);
+    $('.grid-value').css({'background-color': '#333333', 'color': 'yellow'});
+    console.log(actualCharacter);
 }
 
 function loadCharacterList(){
@@ -84,15 +98,15 @@ function loadCharacterList(){
 function fillCharacterSheet(i){
     actualCharacter = characterList[i];
 
-    /* Hide buttons meanwhile load data */
+    // Hide buttons meanwhile load data
     $('#create-button').hide();
     $('#edit-button').hide();
     $('#save-button').hide();
 
-    /* Change to readonly mode */
+    // Change to readonly mode
     changeEditMode(false);
 
-    /* Load general information of character */ 
+    //  Load general information of character
     $('#nombre').val(actualCharacter['nombre']);
     $('#jugador').val(actualCharacter['jugador']);
     $('#rol').val(actualCharacter['rol']);
@@ -106,12 +120,12 @@ function fillCharacterSheet(i){
     $('#estado').val(actualCharacter['estado']);
     $('#creditos').val(actualCharacter['dinero']);
 
-    /* Load attribute values of character */
+    //  Load attribute values of character
     $.each(actualCharacter['atributos'], function(id, value){
         $('#' + id).val(value);
     });
 
-    /* Load abilities values of character */
+    //  Load abilities values of character
     let html = '';
     let number = 0;
     $.each(actualCharacter['capacidad_especial'], function(id, ability){
@@ -124,25 +138,25 @@ function fillCharacterSheet(i){
     number = 0;
     $.each(actualCharacter['habilidades_principales'], function(id, ability){
         number++;
-        html += '<div><input type="text" class="grid-value text-center" id="habilidad_atributo_' + number + '" value="' + ability.atributo + '"/></div>';
-        html += '<div><input type="text" class="grid-value" id="habilidad_nombre_' + number +  '" value="' + ability.nombre + '"/></div>';
-        html += '<div><input type="text" class="grid-value text-center" id="habilidad_valor_' + number +  '" value="' + ability.valor + '"/></div>';
+        html += '<div><input type="text" class="grid-value text-center" id="principal_atributo_' + number + '" value="' + ability.atributo + '"/></div>';
+        html += '<div><input type="text" class="grid-value" id="principal_nombre_' + number +  '" value="' + ability.nombre + '"/></div>';
+        html += '<div><input type="text" class="grid-value text-center" id="principal_valor_' + number +  '" value="' + ability.valor + '"/></div>';
         html += '<div class="text-center"><label>+' + (parseInt(actualCharacter['atributos'][attributes[ability.atributo]]) + parseInt(ability.valor)) + '</label></div>';
     });
     number = 0;
     $.each(actualCharacter['habilidades_secundarias'], function(id, ability){
         number++;
-        html += '<div><input type="text" class="grid-value text-center" id="habilidad_atributo_' + number + '" value="' + ability.atributo + '"/></div>';
-        html += '<div><input type="text" class="grid-value" id="habilidad_nombre_' + number +  '" value="' + ability.nombre + '"/></div>';
-        html += '<div><input type="text" class="grid-value text-center" id="habilidad_valor_' + number +  '" value="' + ability.valor + '"/></div>';
+        html += '<div><input type="text" class="grid-value text-center" id="secundaria_atributo_' + number + '" value="' + ability.atributo + '"/></div>';
+        html += '<div><input type="text" class="grid-value" id="secundaria_nombre_' + number +  '" value="' + ability.nombre + '"/></div>';
+        html += '<div><input type="text" class="grid-value text-center" id="secundaria_valor_' + number +  '" value="' + ability.valor + '"/></div>';
         html += '<div class="text-center"><label>+' + (parseInt(actualCharacter['atributos'][attributes[ability.atributo]]) + parseInt(ability.valor)) + '</label></div>';
     });
     $('#abilities-block-content').html(html);
 
-    /* Calculate some values */
+    // Calculate some values
     let cargo = 0;
 
-    /* Load cyberware for character */
+    // Load cyberware for character
     html = '';
     number = 0;
     $.each(actualCharacter['ciberequipo'], function(id, implante){
@@ -158,7 +172,7 @@ function fillCharacterSheet(i){
     });
     $('#cyberware-block-content').html(html);
 
-    /* Load general gear for character */
+    // Load general gear for character
     html = '';
     number = 0;
     $.each(actualCharacter['armas'], function(id, arma){
@@ -195,7 +209,7 @@ function fillCharacterSheet(i){
     });
     $('#gear-block-content').html(html);
 
-    /* Load other gear for character */
+    // Load other gear for character
     html = '';
     number = 0;
     $.each(actualCharacter['otros'], function(id, otro){
@@ -207,7 +221,7 @@ function fillCharacterSheet(i){
     });
     $('#other-block-content').html(html);
     
-    /* Calculate and show extra data */
+    // Calculate and show extra data
     $('#carga').val(cargo);
     let tco = parseInt(actualCharacter['atributos']['tipo_corporal']);
     $('#cargar').val(tco * 10);
@@ -227,10 +241,11 @@ function fillCharacterSheet(i){
     $('#mtc').val(mtc);
     $('#salvacion').val(tco);
 
-    /* Close character list after load data */
+    // Close character list after load data
     closeCharacterList();
 
-    /* Change status of buttons */
+    // Change status of buttons
+    $('#create-button').show();
     $('#edit-button').show();
     $('#print-button').show();
     $('#delete-button').show();
@@ -249,7 +264,7 @@ function printCharacterSheet() {
 function saveCharacterSheet() {
     let i = parseInt($('#i').val());
 
-    /* Updating local information of actual character */
+    // Updating local information of actual character
     actualCharacter['jugador'] = $('#jugador').val();
     actualCharacter['nombre'] = $('#nombre').val();
     actualCharacter['rol'] = $('#rol').val();
@@ -277,14 +292,15 @@ function saveCharacterSheet() {
     $.each(actualCharacter['habilidades_principales'], function(id, ability){
         number++;
         $.each(ability, function(key, ability_value){
-            ability[key] = $('#habilidad_principal_' + key +  '_' + number).val();
+            console.log('#principal_' + key +  '_' + number);
+            ability[key] = $('#principal_' + key +  '_' + number).val();
         });
     });
     number = 0;
     $.each(actualCharacter['habilidades_secundarias'], function(id, ability){
         number++;
         $.each(ability, function(key, ability_value){
-            ability[key] = $('#habilidad_secundaria_' + key +  '_' + number).val();
+            ability[key] = $('#secundaria_' + key +  '_' + number).val();
         });
     });
     number = 0;
@@ -323,11 +339,12 @@ function saveCharacterSheet() {
         });
     });
 
-    /* Updating local character in buffered list */
+    // Updating local character in buffered list
     actualCharacter['ultima_actualizacion'] = new Date().toLocaleString();
     characterList[i] = actualCharacter;
+    console.log(actualCharacter);
 
-    /* Sending update to database */
+    // Sending update to database
     $.ajax({
         url: 'https://sa-east-1.aws.data.mongodb-api.com/app/data-krfva/endpoint/data/v1/action/updateOne',
         method: 'POST',
@@ -378,19 +395,21 @@ $(document).ready(function(){
         $('#other-block').slideToggle(500);
     });
     $('#extra-block-title').click(function(){
-        $('#extra-block-content').slideToggle(500);
+        $('#/*extra-block-content').slideToggle(500);
     });
 
     // Action buttons
     $('#create-button').click(function(){
         changeEditMode(true);
         $('#create-button').hide();
+        $('#edit-button').hide();
         $('#delete-button').hide();
         $('#print-button').hide();
         $('#save-button').show();
     });
     $('#edit-button').click(function(){
         changeEditMode(true);
+        $('#create-button').hide();
         $('#edit-button').hide();
         $('#delete-button').hide();
         $('#print-button').hide();
@@ -399,10 +418,17 @@ $(document).ready(function(){
     $('#save-button').click(function(){
         changeEditMode(false);
         saveCharacterSheet();
+        $('#create-button').show();
         $('#save-button').hide();
         $('#edit-button').show();
         $('#delete-button').show();
         $('#print-button').show();
+    });
+    $('#delete-button').click(function(){
+        let answer = confirm('Está seguro de que quiere eliminar este personaje? No podrá recuperarlo');
+        if (answer) {
+            location.href = '.';
+        }
     });
     $('#print-button').click(function(){
         printCharacterSheet();
