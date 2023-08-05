@@ -182,15 +182,23 @@ button {
 }
 
 .grid-cyberware-block {
-    grid-template-columns: 100px 250px 100px 50px 100px 50px auto;
+    grid-template-columns: 100px 300px 50px 50px 100px 50px auto;
+}
+
+.grid-armor-block {
+    grid-template-columns: 100px 300px 50px 50px 50px 50px 100px 50px auto;
+}
+
+.grid-weapons-block {
+    grid-template-columns: 100px 300px 50px 50px 50px 100px 50px 50px 80px 100px 100px 100px 50px auto;
 }
 
 .grid-gear-block {
-    grid-template-columns: 100px 400px 100px 100px 50px auto;
+    grid-template-columns: 100px 300px 100px 50px auto;
 }
 
 .grid-other-block {
-    grid-template-columns: 200px 300px auto;
+    grid-template-columns: 100px 300px auto;
 }
 
 .grid-extra-block {
@@ -258,6 +266,8 @@ button {
 .grid-col10 { grid-column: span 10; }
 .grid-col11 { grid-column: span 11; }
 .grid-col12 { grid-column: span 12; }
+.grid-col13 { grid-column: span 13; }
+.grid-col14 { grid-column: span 14; }
 
 .grid-row6 { grid-row: span 6; }
 

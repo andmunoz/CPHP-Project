@@ -12,6 +12,11 @@ let base_array = new Object();
 base_array['capacidad_especial'] = {'atributo': false, 'nombre': '', 'valor': 0, 'base': false};
 base_array['habilidades_principales'] = {'atributo': 0, 'nombre': '', 'valor': 0, 'base': false};
 base_array['habilidades_secundarias'] = {'atributo': 0, 'nombre': '', 'valor': 0, 'base': false};
+base_array['ciberequipo'] = {'tipo': '', 'nombre': '', 'disponibilidad': 0, 'humanidad': 0, 'peso': 0, 'slot': 0, 'descripcion': ''};
+base_array['armas'] = {'categoria': '', 'nombre': '', 'disponibilidad': 0, 'disimulo': 0, 'pa': 0, 'municion': 0, 'vd': 0, 'balas': 0, 'fiabilidad': 0, 'distancia': '', 'danno': 0, 'peso': 0, 'slot': 0, 'descripcion': ''};
+base_array['blindaje'] = {'categoria': '', 'nombre': '', 'disponibilidad': 0, 'tipo': 0, 'cp': 0, 'ce': 0, 'peso': 0, 'slot': 0, 'descripcion': ''};
+base_array['equipo'] = {'categoria': '', 'nombre': '', 'peso': 0, 'slot': 0, 'descripcion': ''};
+base_array['otros'] = {'categoria': '', 'nombre': '', 'descripcion': ''};
 let characterList = null;
 let actualCharacter = {};
 
@@ -25,8 +30,8 @@ function openCharacterList(){
 }
 
 function closeCharacterList(){
-    $('#sideNav').css('width', '0');
-    $('#main').css('marginLeft', '0').fadeTo(1000, 1);
+    $('#sideNav').css('width', '0px');
+    $('#main').css('marginLeft', '0px').fadeTo(1000, 1);
 }
 
 function changeEditMode(mode) {
@@ -43,24 +48,28 @@ function changeEditMode(mode) {
     }
 }
 
-/* Functions to interact with data */
-function addNewRow(type, block, name) {
-    let newRow = base_array[type];
+function addNewRow(type, block, dataRow, name, isNew = false) {
+    let rowSchema = base_array[type];
     let newDataRow = {};
     let html = '';
-    $.each(newRow, function(key, value){
+    $.each(rowSchema, function(key, value){
         html += '<div>'
         if (value !== false) {
-            newDataRow[key] = value;
-            html += '<input type="text" class="grid-value' + (typeof value == 'number'?' text-center':'') + '" id="' + name + '_' + key + '_' + (actualCharacter[type].length + 1) + '" value=""/>';
+            newDataRow[key] = dataRow[key];
+            html += '<input type="text" class="grid-value' + (typeof value == 'number'?' text-center':'') + '" id="' + name + '_' + key + '_' + (actualCharacter[type].length + 1) + '" value="' + (isNew?'':dataRow[key]) + '"/>';
         }
         html += '</div>';
     });
-    console.log(html);
-    actualCharacter[type].push(newDataRow);
     $('#' + block + '-block-content').append(html);
+    return newDataRow;
+}
+
+/* Functions to interact with data */
+function addNewElement(type, block, name) {
+    let dataRow = base_array[type];
+    let newDataRow = addNewRow(type, block, dataRow, name, true);
+    actualCharacter[type].push(newDataRow);
     $('.grid-value').css({'background-color': '#333333', 'color': 'yellow'});
-    console.log(actualCharacter);
 }
 
 function loadCharacterList(){
@@ -126,100 +135,45 @@ function fillCharacterSheet(i){
     });
 
     //  Load abilities values of character
-    let html = '';
-    let number = 0;
     $.each(actualCharacter['capacidad_especial'], function(id, ability){
-        number++;
-        html += '<div class="text-center"><label>Especial</label></div>';
-        html += '<div><input type="text" class="grid-value" id="especial_nombre_' + number + '" value="' + ability.nombre + '"/></div>';
-        html += '<div><input type="text" class="grid-value text-center" id="especial_valor_' + number + '" value="' + ability.valor + '"/></div>';
-        html += '<div></div>';
+        addNewRow('capacidad_especial', 'abilities', ability, 'especial');
     });
-    number = 0;
     $.each(actualCharacter['habilidades_principales'], function(id, ability){
-        number++;
-        html += '<div><input type="text" class="grid-value text-center" id="principal_atributo_' + number + '" value="' + ability.atributo + '"/></div>';
-        html += '<div><input type="text" class="grid-value" id="principal_nombre_' + number +  '" value="' + ability.nombre + '"/></div>';
-        html += '<div><input type="text" class="grid-value text-center" id="principal_valor_' + number +  '" value="' + ability.valor + '"/></div>';
-        html += '<div class="text-center"><label>+' + (parseInt(actualCharacter['atributos'][attributes[ability.atributo]]) + parseInt(ability.valor)) + '</label></div>';
+        addNewRow('habilidades_principales', 'abilities', ability, 'principal');
     });
-    number = 0;
     $.each(actualCharacter['habilidades_secundarias'], function(id, ability){
-        number++;
-        html += '<div><input type="text" class="grid-value text-center" id="secundaria_atributo_' + number + '" value="' + ability.atributo + '"/></div>';
-        html += '<div><input type="text" class="grid-value" id="secundaria_nombre_' + number +  '" value="' + ability.nombre + '"/></div>';
-        html += '<div><input type="text" class="grid-value text-center" id="secundaria_valor_' + number +  '" value="' + ability.valor + '"/></div>';
-        html += '<div class="text-center"><label>+' + (parseInt(actualCharacter['atributos'][attributes[ability.atributo]]) + parseInt(ability.valor)) + '</label></div>';
+        addNewRow('habilidades_secundarias', 'abilities', ability, 'secundaria');
     });
-    $('#abilities-block-content').html(html);
 
     // Calculate some values
     let cargo = 0;
 
     // Load cyberware for character
-    html = '';
-    number = 0;
     $.each(actualCharacter['ciberequipo'], function(id, implante){
-        number++;
-        html += '<div><input type="text" class="grid-value" id="implante_tipo_' + number + '" value="' + implante.tipo + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="implante_nombre_' + number + '" value="' + implante.nombre + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="implante_disponibilidad_' + number + '" value="' + implante.disponibilidad + '"></div>';
-        html += '<div><input type="text" class="grid-value text-center" id="implante_humanidad_' + number + '" value="' + implante.humanidad + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="implante_slot_' + number + '" value="' + implante.slot + '"></div>';
-        html += '<div><input type="text" class="grid-value text-center" id="implante_peso_' + number + '" value="' + implante.peso + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="implante_descripcion_' + number + '" value="' + implante.descripcion + '"></div>';
+        addNewRow('ciberequipo', 'cyberware', implante, 'implante');
         cargo += parseFloat(implante.peso);
     });
-    $('#cyberware-block-content').html(html);
 
     // Load general gear for character
-    html = '';
-    number = 0;
-    $.each(actualCharacter['armas'], function(id, arma){
-        number++;
-        html += '<div><input type="text" class="grid-value" id="arma_tipo_' + number + '" value="' + arma.tipo + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="arma_nombre_' + number + '" value="' + arma.nombre + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="arma_disponibilidad_' + number + '" value="' + arma.disponibilidad + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="arma_slot_' + number + '" value="' + arma.slot + '"></div>';
-        html += '<div><input type="text" class="grid-value text-center" id="arma_peso_' + number + '" value="' + arma.peso + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="arma_descripcion_' + number + '" value="Disimulo ' + arma.disimulo + ', PA ' + arma.pa + ' (' + arma.municion + '), ' + arma.vd + '/' + arma.balas + ', ' + arma.fiabilidad + ', Alcance ' + arma.distancia + ' mts, Daño ' + arma.danno + '"></div>';
-        cargo += parseFloat(arma.peso);
-    });
-    number = 0;
     $.each(actualCharacter['blindaje'], function(id, armadura){
-        number++;
-        html += '<div><input type="text" class="grid-value" id="armadura_tipo_' + number + '" value="' + armadura.categoria + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="armadura_nombre_' + number + '" value="' + armadura.nombre + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="armadura_disponibilidad_' + number + '" value="' + armadura.disponibilidad + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="armadura_slot_' + number + '" value="' + armadura.cobertura + '"></div>';
-        html += '<div><input type="text" class="grid-value text-center" id="armadura_peso_' + number + '" value="' + armadura.peso + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="armadura_descripcion_' + number + '" value="' + armadura.tipo + ', CP ' + armadura.cp + ', CE ' + armadura.ce + '"></div>';
+        addNewRow('blindaje', 'armor', armadura, 'armadura');
         cargo += parseFloat(armadura.peso);
     });
-    number = 0;
-    $.each(actualCharacter['equipo'], function(id, equipo){
-        number++;
-        html += '<div><input type="text" class="grid-value" id="equipo_tipo_' + number + '" value="' + equipo.categoria + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="equipo_nombre_' + number + '" value="' + equipo.nombre + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="equipo_disponibilidad_' + number + '" value="' + equipo.disponibilidad + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="equipo_slot_' + number + '" value="' + equipo.slot + '"></div>';
-        html += '<div><input type="text" class="grid-value text-center" id="equipo_peso_' + number + '" value="' + equipo.peso + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="equipo_descripcion_' + number + '" value="Cantidad ' + equipo.cantidad + '"></div>';
-        cargo += parseFloat(equipo.peso);
-    });
-    $('#gear-block-content').html(html);
-
-    // Load other gear for character
-    html = '';
-    number = 0;
-    $.each(actualCharacter['otros'], function(id, otro){
-        number++;
-        html += '<div><input type="text" class="grid-value" id="otro_tipo_' + number + '" value="' + otro.tipo + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="otro_nombre_' + number + '" value="' + otro.nombre + '"></div>';
-        html += '<div><input type="text" class="grid-value" id="otro_descripcion_' + number + '" value="Disimulo ' + otro.disimulo + ', PA ' + arma.pa + ' (' + arma.municion + '), ' + arma.vd + '/' + arma.balas + ', ' + arma.fiabilidad + ', Alcance ' + arma.distancia + ' mts, Daño ' + arma.danno + '"></div>';
+    $.each(actualCharacter['armas'], function(id, arma){
+        addNewRow('armas', 'weapons', arma, 'arma');
         cargo += parseFloat(arma.peso);
     });
-    $('#other-block-content').html(html);
+    $.each(actualCharacter['equipo'], function(id, equipo){
+        addNewRow('equipo', 'gear', equipo, 'equipo');
+        cargo += parseFloat(equipo.peso);
+    });
+
+    // Load other gear for character
+    $.each(actualCharacter['otros'], function(id, otro){
+        addNewRow('otros', 'other', otro, 'otro');
+        number++;
+        cargo += parseFloat(arma.peso);
+    });
     
     // Calculate and show extra data
     $('#carga').val(cargo);
@@ -342,7 +296,6 @@ function saveCharacterSheet() {
     // Updating local character in buffered list
     actualCharacter['ultima_actualizacion'] = new Date().toLocaleString();
     characterList[i] = actualCharacter;
-    console.log(actualCharacter);
 
     // Sending update to database
     $.ajax({
@@ -377,25 +330,31 @@ function saveCharacterSheet() {
 $(document).ready(function(){
     // Sections title hide and show
     $('#general-block-title').click(function(){
-        $('#general-block-content').slideToggle(500);
+        $('#general-block-content').slideToggle(300);
     });   
     $('#attributes-block-title').click(function(){
-        $('#attributes-block-content').slideToggle(500);
+        $('#attributes-block-content').slideToggle(300);
     });
     $('#abilities-block-title').click(function(){
-        $('#abilities-block').slideToggle(500);
+        $('#abilities-block').slideToggle(300);
     });
     $('#cyberware-block-title').click(function(){
-        $('#cyberware-block').slideToggle(500);
+        $('#cyberware-block').slideToggle(300);
+    });
+    $('#armor-block-title').click(function(){
+        $('#armor-block').slideToggle(300);
+    });
+    $('#weapons-block-title').click(function(){
+        $('#weapons-block').slideToggle(300);
     });
     $('#gear-block-title').click(function(){
-        $('#gear-block').slideToggle(500);
+        $('#gear-block').slideToggle(300);
     });
     $('#other-block-title').click(function(){
-        $('#other-block').slideToggle(500);
+        $('#other-block').slideToggle(300);
     });
     $('#extra-block-title').click(function(){
-        $('#/*extra-block-content').slideToggle(500);
+        $('#extra-block-content').slideToggle(300);
     });
 
     // Action buttons

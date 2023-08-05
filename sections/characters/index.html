@@ -120,9 +120,9 @@
         <div class="grid-container grid-general-block" id="abilities-block-actions">
           <div class="grid-fill grid-col8 content-right action-buttons">
             <label>Agregar: </label>
-            <button id="add-special-button" onclick="addNewRow('capacidad_especial', 'abilities', 'especial');">Especial</button>
-            <button id="add-primary-button" onclick="addNewRow('habilidades_principales', 'abilities', 'principal');">Principal</button>
-            <button id="add-secondary-button" onclick="addNewRow('habilidades_secundarias', 'abilities', 'secundaria');">Secundaria</button>
+            <button id="add-special-button" onclick="addNewElement('capacidad_especial', 'abilities', 'especial');">Especial</button>
+            <button id="add-primary-button" onclick="addNewElement('habilidades_principales', 'abilities', 'principal');">Principal</button>
+            <button id="add-secondary-button" onclick="addNewElement('habilidades_secundarias', 'abilities', 'secundaria');">Secundaria</button>
           </div>
         </div>
       </div>
@@ -132,42 +132,92 @@
       </div>
       <div id="cyberware-block">
         <div class="grid-container grid-cyberware-block" id="cyberware-block-headers">
-          <div class="text-center"><label>Tipo</label></div>
+          <div class="text-center"><label>Categoría</label></div>
           <div class="text-center"><label>Nombre</label></div>
           <div class="text-center"><label>Disp</label></div>
           <div class="text-center"><label>Hum</label></div>
-          <div class="text-center"><label>Ubicación</label></div>
           <div class="text-center"><label>Peso</label></div>
+          <div class="text-center"><label>Slot</label></div>
           <div class="text-center"><label>Descripción</label></div>
         </div> 
         <div class="grid-container grid-cyberware-block" id="cyberware-block-content"></div>
         <div class="grid-container grid-general-block" id="cyberware-block-actions">
           <div class="grid-fill grid-col8 content-right action-buttons">
             <label>Agregar: </label>
-            <button id="add-cyberware-button">Implante</button>
+            <button id="add-cyberware-button" onclick="addNewElement('ciberequipo', 'cyberware', 'implante');">Implante</button>
           </div>
         </div>
       </div> 
 
+      <div class="grid-container grid-armor-block" id="armor-block-title">
+        <div class="grid-fill grid-col10"><p class="grid-section">BLINDAJE</p></div>
+      </div>
+      <div id="armor-block">
+        <div class="grid-container grid-armor-block" id="armor-block-headers">
+          <div class="text-center"><label>Categoría</label></div>
+          <div class="text-center"><label>Nombre</label></div>
+          <div class="text-center"><label>Disp</label></div>
+          <div class="text-center"><label>Tipo</label></div>
+          <div class="text-center"><label>CP</label></div>
+          <div class="text-center"><label>CE</label></div>
+          <div class="text-center"><label>Peso</label></div>
+          <div class="text-center"><label>Slot</label></div>
+          <div class="text-center"><label>Descripción</label></div>
+        </div>
+        <div class="grid-container grid-armor-block" id="armor-block-content"></div>
+        <div class="grid-container grid-general-block" id="armor-block-actions">
+          <div class="grid-fill grid-col10 content-right action-buttons">
+            <label>Agregar: </label>
+            <button id="add-armor-button" onclick="addNewElement('blindaje', 'armor', 'armadura');">Blindaje</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-container grid-weapons-block" id="weapons-block-title">
+        <div class="grid-fill grid-col14"><p class="grid-section">ARMAS</p></div>
+      </div>
+      <div id="weapons-block">
+        <div class="grid-container grid-weapons-block" id="weapons-block-headers">
+          <div class="text-center"><label>Categoría</label></div>
+          <div class="text-center"><label>Nombre</label></div>
+          <div class="text-center"><label>Disp</label></div>
+          <div class="text-center"><label>Disim</label></div>
+          <div class="text-center"><label>PA</label></div>
+          <div class="text-center"><label>Munición</label></div>
+          <div class="text-center"><label>VD</label></div>
+          <div class="text-center"><label>Balas</label></div>
+          <div class="text-center"><label>Fiab</label></div>
+          <div class="text-center"><label>Alcance</label></div>
+          <div class="text-center"><label>Daño</label></div>
+          <div class="text-center"><label>Peso</label></div>
+          <div class="text-center"><label>Slot</label></div>
+          <div class="text-center"><label>Descripción</label></div>
+        </div>
+        <div class="grid-container grid-weapons-block" id="weapons-block-content"></div>
+        <div class="grid-container grid-general-block" id="weapons-block-actions">
+          <div class="grid-fill grid-col12 content-right action-buttons">
+            <label>Agregar: </label>
+            <button id="add-weapon-button" onclick="addNewElement('armas', 'weapons', 'arma');">Arma</button>
+          </div>
+        </div>
+      </div>
+
       <div class="grid-container grid-gear-block" id="gear-block-title">
-        <div class="grid-fill grid-col9"><p class="grid-section">ARMAS Y EQUIPO</p></div>
+        <div class="grid-fill grid-col8"><p class="grid-section">EQUIPO</p></div>
       </div>
       <div id="gear-block">
         <div class="grid-container grid-gear-block" id="gear-block-headers">
-          <div class="text-center"><label>Tipo</label></div>
+          <div class="text-center"><label>Categoría</label></div>
           <div class="text-center"><label>Nombre</label></div>
-          <div class="text-center"><label>Disp</label></div>
-          <div class="text-center"><label>Ubicación</label></div>
           <div class="text-center"><label>Peso</label></div>
+          <div class="text-center"><label>Slot</label></div>
           <div class="text-center"><label>Descripción</label></div>
         </div>
         <div class="grid-container grid-gear-block" id="gear-block-content"></div>
         <div class="grid-container grid-general-block" id="gear-block-actions">
           <div class="grid-fill grid-col8 content-right action-buttons">
             <label>Agregar: </label>
-            <button id="add-armor-button">Blindaje</button>
-            <button id="add-weapon-button">Arma</button>
-            <button id="add-gear-button">Equipo</button>
+            <button id="add-gear-button" onclick="addNewElement('equipo', 'gear', 'equipo');">Equipo</button>
           </div>
         </div>
       </div>
@@ -177,7 +227,7 @@
       </div>
       <div id="other-block">
         <div class="grid-container grid-other-block" id="other-block-headers">
-          <div class="text-center"><label>Tipo</label></div>
+          <div class="text-center"><label>Categoría</label></div>
           <div class="text-center"><label>Nombre</label></div>
           <div class="text-center"><label>Descripción</label></div>
         </div>
@@ -185,9 +235,7 @@
         <div class="grid-container grid-general-block" id="other-block-actions">
           <div class="grid-fill grid-col8 content-right action-buttons">
             <label>Agregar: </label>
-            <button id="add-drug-button">Droga</button>
-            <button id="add-terminal-button">Terminal</button>
-            <button id="add-vehicle-button">Vehículo</button>
+            <button id="add-drug-button" onclick="addNewElement('otro', 'other', 'otro');">Otro</button>
           </div>
         </div>
       </div>
