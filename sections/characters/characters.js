@@ -48,7 +48,7 @@ function changeEditMode(mode) {
     }
 }
 
-function addNewRow(type, block, dataRow, name, isNew = false) {
+function addNewRow(type, block, dataRow, name, isNew = true) {
     let rowSchema = base_array[type];
     let newDataRow = {};
     let html = '';
@@ -56,7 +56,7 @@ function addNewRow(type, block, dataRow, name, isNew = false) {
         html += '<div>'
         if (value !== false) {
             newDataRow[key] = dataRow[key];
-            html += '<input type="text" class="grid-value' + (typeof value == 'number'?' text-center':'') + '" id="' + name + '_' + key + '_' + (actualCharacter[type].length + 1) + '" value="' + (isNew?'':dataRow[key]) + '"/>';
+            html += '<input type="text" class="grid-value' + (typeof value == 'number'?' text-center':'') + '" id="' + name + '_' + key + '_' + (isNew?actualCharacter[type].length:isNew) + '" value="' + (isNew?'':dataRow[key]) + '"/>';
         }
         html += '</div>';
     });
@@ -67,8 +67,9 @@ function addNewRow(type, block, dataRow, name, isNew = false) {
 /* Functions to interact with data */
 function addNewElement(type, block, name) {
     let dataRow = base_array[type];
-    let newDataRow = addNewRow(type, block, dataRow, name, true);
+    let newDataRow = addNewRow(type, block, dataRow, name);
     actualCharacter[type].push(newDataRow);
+    console.log(actualCharacter);
     $('.grid-value').css({'background-color': '#333333', 'color': 'yellow'});
 }
 
@@ -123,7 +124,7 @@ function fillCharacterSheet(i){
     $('#estatura').val(actualCharacter['estatura']);
     $('#peso').val(actualCharacter['peso']);
     $('#experiencia').val(actualCharacter['experiencia']);
-    // $('#reputacion').val(actualCharacter['reputacion']);
+    // $1('#reputacion').val(actualCharacter['reputacion']);
     $('#descripcion').val(actualCharacter['descripcion']);
     $('#retrato').attr('src', actualCharacter['imagenes']['retrato']);
     $('#estado').val(actualCharacter['estado']);
@@ -135,44 +136,59 @@ function fillCharacterSheet(i){
     });
 
     //  Load abilities values of character
+    let number = 0;
     $.each(actualCharacter['capacidad_especial'], function(id, ability){
-        addNewRow('capacidad_especial', 'abilities', ability, 'especial');
+        addNewRow('capacidad_especial', 'abilities', ability, 'especial', number);
+        number++;
     });
+    number = 0;
     $.each(actualCharacter['habilidades_principales'], function(id, ability){
-        addNewRow('habilidades_principales', 'abilities', ability, 'principal');
+        addNewRow('habilidades_principales', 'abilities', ability, 'principal', number);
+        number++;
     });
+    number = 0;
     $.each(actualCharacter['habilidades_secundarias'], function(id, ability){
-        addNewRow('habilidades_secundarias', 'abilities', ability, 'secundaria');
+        addNewRow('habilidades_secundarias', 'abilities', ability, 'secundaria', number);
+        number++;
     });
 
     // Calculate some values
     let cargo = 0;
 
     // Load cyberware for character
+    number = 0;
     $.each(actualCharacter['ciberequipo'], function(id, implante){
-        addNewRow('ciberequipo', 'cyberware', implante, 'implante');
+        addNewRow('ciberequipo', 'cyberware', implante, 'implante', number);
         cargo += parseFloat(implante.peso);
+        number++;
     });
 
     // Load general gear for character
+    number = 0;
     $.each(actualCharacter['blindaje'], function(id, armadura){
-        addNewRow('blindaje', 'armor', armadura, 'armadura');
+        addNewRow('blindaje', 'armor', armadura, 'armadura', number);
         cargo += parseFloat(armadura.peso);
+        number++;
     });
+    number = 0;
     $.each(actualCharacter['armas'], function(id, arma){
-        addNewRow('armas', 'weapons', arma, 'arma');
+        addNewRow('armas', 'weapons', arma, 'arma', number);
         cargo += parseFloat(arma.peso);
+        number++;
     });
+    number = 0;
     $.each(actualCharacter['equipo'], function(id, equipo){
-        addNewRow('equipo', 'gear', equipo, 'equipo');
+        addNewRow('equipo', 'gear', equipo, 'equipo', number);
         cargo += parseFloat(equipo.peso);
+        number++;
     });
 
     // Load other gear for character
+    number = 0;
     $.each(actualCharacter['otros'], function(id, otro){
-        addNewRow('otros', 'other', otro, 'otro');
-        number++;
+        addNewRow('otros', 'other', otro, 'otro', number);
         cargo += parseFloat(arma.peso);
+        number++;
     });
     
     // Calculate and show extra data
@@ -237,60 +253,59 @@ function saveCharacterSheet() {
 
     let number = 0;
     $.each(actualCharacter['capacidad_especial'], function(id, ability){
-        number++;
         $.each(ability, function(key, ability_value){
             ability[key] = $('#especial_' + key +  '_' + number).val();
         });
+        number++;
     });
     number = 0;
     $.each(actualCharacter['habilidades_principales'], function(id, ability){
-        number++;
         $.each(ability, function(key, ability_value){
-            console.log('#principal_' + key +  '_' + number);
             ability[key] = $('#principal_' + key +  '_' + number).val();
         });
+        number++;
     });
     number = 0;
     $.each(actualCharacter['habilidades_secundarias'], function(id, ability){
-        number++;
         $.each(ability, function(key, ability_value){
             ability[key] = $('#secundaria_' + key +  '_' + number).val();
         });
+        number++;
     });
     number = 0;
     $.each(actualCharacter['ciberequipo'], function(id, implante){
-        number++;
         $.each(implante, function(key, implante_value){
             implante[key] = $('#implante_' + key +  '_' + number).val();
         });
+        number++;
     });
     number = 0;
     $.each(actualCharacter['armas'], function(id, arma){
-        number++;
         $.each(arma, function(key, arma_value){
             arma[key] = $('#arma_' + key +  '_' + number).val();
         });
+        number++;
     });
     number = 0;
     $.each(actualCharacter['blindaje'], function(id, armadura){
-        number++;
         $.each(armadura, function(key, armadura_value){
             armadura[key] = $('#armadura_' + key +  '_' + number).val();
         });
+        number++;
     });
     number = 0;
     $.each(actualCharacter['equipo'], function(id, equipo){
-        number++;
         $.each(equipo, function(key, equipo_value){
             equipo[key] = $('#equipo_' + key +  '_' + number).val();
         });
+        number++;
     });
     number = 0;
     $.each(actualCharacter['otros'], function(id, otro){
-        number++;
         $.each(otros, function(key, otro_value){
             otro[key] = $('#otro_' + key +  '_' + number).val();
         });
+        number++;
     });
 
     // Updating local character in buffered list
